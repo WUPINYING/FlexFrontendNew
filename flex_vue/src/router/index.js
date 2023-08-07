@@ -6,11 +6,6 @@ import ActivityInfo from '../views/activity/ActivityInfo.vue';
 import ActivitySignUp from '../views/activity/ActivitySignUp.vue';
 const webTitle = 'FLEX - ';
 
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/home/Home.vue';
-import User from '../views/user/User.vue';
-
-import ActivityInfo from '../views/activity/ActivityInfo.vue';
 // 路由設定
 const routes = [
   {

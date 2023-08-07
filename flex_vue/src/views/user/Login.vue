@@ -12,6 +12,7 @@
       <input
         type="text"
         name="account"
+        v-if="accInput"
         v-model="account"
         class="form-control"
         placeholder="手機號碼/帳號/Email"
@@ -67,6 +68,7 @@ import { ref } from 'vue';
 
 const errors = ref([]);
 const userData = ref([]);
+const accInput = ref(true);
 const validated = ref(false); //初始化狀態為不顯示
 const unValidated = ref(false);
 
@@ -85,29 +87,30 @@ function ValidatedIdentity() {
   } else {
     //已填寫
     var loginData = {}; //儲存傳給後端的登入資料
-    loginData.Account = account;
+    loginData.Account = account.value;
     //console.log(loginData.Account.value);
 
     axios
-      .post(uri, { account: account.value })
+      .post(uri, loginData)
       .then((res) => {
         userData.value = res.data;
-        console.log(userData.value); //後端return的訊息
+        //console.log(userData.value); //後端return的訊息
+
+        //從回傳的資料中取得帳號並進行比較
+        if (userData.value === account.value) {
+          console.log('帳號驗證成功囉!');
+          validated.value = true;
+          accInput.value = false;
+        } else {
+          validated.value = false;
+          console.log('帳號驗證失敗');
+          unValidated.value = true;
+        }
       })
       .catch((err) => {
         alert('API請求失敗：' + err.message);
       });
-
-    //如果跟資料庫資料帳號一樣
-    if (userData.value === account) {
-      //console.log('有找到帳號');
-      validated.value = true;
-    }
   }
-  //   else {
-  //     //未註冊
-  //     unValidated.value = true;
-  //   }
 }
 </script>
 <style>
