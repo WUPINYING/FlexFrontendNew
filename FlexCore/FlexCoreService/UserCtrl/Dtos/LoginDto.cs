@@ -4,6 +4,6 @@
     {
         public string? Account { get; set; }
 
-        //public string? EncryptedPassword { get; set; }
+        public string? EncryptedPassword { get; set; }
     }
 }

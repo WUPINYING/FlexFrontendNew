@@ -49,20 +49,20 @@ namespace FlexCoreService
 
             builder.Services.AddHttpContextAccessor();
 
+            //--
+            //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+            //{
+
+            //    //option.LoginPath = new PathString("/api/Users/NoLogin");
+            //    option.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+            //});
 
 
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
-            {
-
-                //option.LoginPath = new PathString("/api/Users/NoLogin");
-                option.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-            });
-
-
-            builder.Services.AddMvc(options =>
-            {
-                options.Filters.Add(new AuthorizeFilter());
-            });
+            //builder.Services.AddMvc(options =>
+            //{
+            //    options.Filters.Add(new AuthorizeFilter());
+            //});
+            //--
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

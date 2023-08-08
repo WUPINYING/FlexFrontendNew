@@ -23,6 +23,7 @@
       <input
         type="password"
         name="password"
+        v-model="password"
         class="form-control"
         placeholder="輸入6-20碼英數字"
       />
@@ -96,6 +97,7 @@ const password = ref('');
 
 const baseAddress = 'https://localhost:7183';
 const uri = `${baseAddress}/api/Users/Login`;
+var loginData = {}; //儲存傳給後端的登入資料
 
 function ValidatedIdentity() {
   //alert('loginAndRegister');
@@ -105,7 +107,6 @@ function ValidatedIdentity() {
     errors.value.push('沒有填誰知道你是誰');
   } else {
     //已填寫
-    var loginData = {}; //儲存傳給後端的登入資料
     loginData.Account = account.value;
     //console.log(loginData.Account.value);
 
@@ -142,11 +143,18 @@ function ValidatedIdentity() {
 function Login() {
   //alert('Login');
   //todo是否與資料庫的密碼相符
+  loginData.EncryptedPassword = password.value;
+  //console.log(loginData);
+
   axios
-    .post(uri, password) //todo帳號密碼都要往後端送
+    .post(uri, loginData) //todo帳號密碼都要往後端送
     .then((res) => {
-      res.data;
       console.log(res.data);
+
+      //userData.value = res.data;
+      //console.log(loginData);
+
+      //從回傳的資料中取得帳號並進行比較
     })
     .catch((err) => {
       err;
@@ -159,7 +167,7 @@ function register() {
   //todo是否與資料庫的信箱一樣，信箱已經註冊過囉
 }
 </script>
-<style>
+<style scoped>
 .loginBox {
   border: solid;
 }

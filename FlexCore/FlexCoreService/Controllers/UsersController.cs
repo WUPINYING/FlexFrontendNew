@@ -71,12 +71,16 @@ namespace FlexCoreService.Controllers
 
             if (user == null)
             {
-                //驗證失敗
+                //欄位或帳號驗證失敗
                 return "帳號錯誤";
             }
             else
             {
-                //驗證成功
+                //帳號驗證成功
+                //驗證密碼
+                var userPassword = (from m in _db.Members where m.EncryptedPassword == value.EncryptedPassword select m).SingleOrDefault();
+
+                //
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Account),
