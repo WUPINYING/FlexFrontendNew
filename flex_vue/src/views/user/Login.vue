@@ -140,9 +140,11 @@ onMounted(() => {
 
   if (storedUser) {
     loggedInUser.value = JSON.parse(storedUser);
-    // 重新将用户信息同步到 pinia store
+    // 同步到 pinia store
     getApiStore.setMemberUsername(loggedInUser.value.username);
-    //console.log('onMounted');
+    console.log('onMountedusername' + loggedInUser.value.username);
+    console.log('onMountedmemberId' + loggedInUser.value.memberId);
+    console.log('onMountedEmail' + loggedInUser.value.Email);
   }
 });
 
@@ -190,7 +192,7 @@ function ValidatedIdentity() {
       .post(uri, loginData)
       .then((res) => {
         userData.value = res.data;
-        //console.log(userData.value); //後端return的訊息
+        //console.log('帳號' + userData.value); //後端return的訊息
 
         //從回傳的資料中取得帳號並進行比較
         //已註冊
@@ -261,13 +263,12 @@ function Login() {
         console.log(userName.Value);
         console.log(userId.Value);
 
-        // if (userName) {
-        //   setMemberUsername(userName.Value);
-        //   console.log('setMemberUsername' + userName.Value);
-        // }
         if (userName) {
-          setMemberUsername(memberInfo);
-          //console.log(memberInfo);
+          setMemberUsername({
+            username: memberInfo.username,
+            memberId: memberInfo.memberId,
+          });
+          console.log('memberInfo', memberInfo);
         }
         //alert('登入成功啦港動~~~');
         handleSuccessfulLogin({
@@ -278,19 +279,28 @@ function Login() {
     })
     .catch((err) => {
       errors.value = [];
-      errors.value.push('密碼錯誤');
+      //errors.value.push('密碼錯誤');
+
       console.error(err);
       //todo錯誤累計三次
     });
 }
 
 function handleSuccessfulLogin(userData) {
-  // 將用戶信息儲存到本地存儲中
+  // 將用戶信息轉成字串儲存到本地存儲中
   localStorage.setItem('loggedInUser', JSON.stringify(userData));
 
   // 同步用戶信息到 pinia store
   loggedInUser.value = userData;
-  setMemberUsername(userData.username);
+
+  // if (userData.memberId) {
+  //   setMemberUsername({
+  //     username: userData.username,
+  //     memberId: userData.memberId,
+  //   });
+  // }
+  // console.log('123');
+  console.log(userData);
 }
 
 const regUri = `${baseAddress}/api/Users/Register`;

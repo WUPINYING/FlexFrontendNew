@@ -85,7 +85,7 @@ namespace FlexCoreService.Controllers
             if (userData == null)
             {
                 //欄位或帳號驗證失敗
-                return BadRequest("帳號錯誤");
+                return Ok(null);
             }
             else
             {                
