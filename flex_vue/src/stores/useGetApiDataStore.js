@@ -10,7 +10,6 @@ export const useGetApiDataStore = defineStore('getApiData', {
     return {
       loginSuccess: ref(false),
       memberData: ref({}),
-      memberId: ref(null),
     };
   },
   actions: {

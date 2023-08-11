@@ -29,6 +29,7 @@
         placeholder="輸入6-20碼英數字"
       />
     </div>
+    <div><a href=""></a>忘記密碼</div>
     <div class="from-group mb-3" v-if="unValidated">
       <label>信箱</label>
       <input
@@ -142,9 +143,9 @@ onMounted(() => {
     loggedInUser.value = JSON.parse(storedUser);
     // 同步到 pinia store
     getApiStore.setMemberUsername(loggedInUser.value.username);
-    console.log('onMountedusername' + loggedInUser.value.username);
-    console.log('onMountedmemberId' + loggedInUser.value.memberId);
-    console.log('onMountedEmail' + loggedInUser.value.Email);
+    getApiStore.setMemberUsername(loggedInUser.value.memberId);
+    //console.log('onMountedusername' + loggedInUser.value.username);
+    //onsole.log('onMountedmemberId' + loggedInUser.value.memberId);
   }
 });
 
@@ -260,20 +261,15 @@ function Login() {
           username: userName.Value,
           memberId: userId.Value,
         };
-        console.log(userName.Value);
-        console.log(userId.Value);
+        //console.log(userName.Value);
+        //console.log(userId.Value);
 
         if (userName) {
-          setMemberUsername({
-            username: memberInfo.username,
-            memberId: memberInfo.memberId,
-          });
-          console.log('memberInfo', memberInfo);
+          setMemberUsername(memberInfo);
+          console.log('memberInfo', memberInfo); //這邊有username、memberId
         }
         //alert('登入成功啦港動~~~');
-        handleSuccessfulLogin({
-          username: userName.Value, // 假設用戶名稱在這裡
-        });
+        handleSuccessfulLogin(memberInfo);
         router.push({ path: '/' });
       }
     })
@@ -292,15 +288,7 @@ function handleSuccessfulLogin(userData) {
 
   // 同步用戶信息到 pinia store
   loggedInUser.value = userData;
-
-  // if (userData.memberId) {
-  //   setMemberUsername({
-  //     username: userData.username,
-  //     memberId: userData.memberId,
-  //   });
-  // }
-  // console.log('123');
-  console.log(userData);
+  console.log(userData); //這邊只有username
 }
 
 const regUri = `${baseAddress}/api/Users/Register`;
